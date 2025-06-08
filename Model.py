@@ -2,6 +2,14 @@ import mesa
 import random
 import numpy as np
 
+from getStats import LineaData, EstacionData
+from auxiliarData import lineas_aux_data
+
+## --- Definición de las clases del modelo de subte --- ##
+
+
+
+
 class Pasajero(mesa.Agent):
     def __init__(self, unique_id, model):
         super().__init__(unique_id, model)
@@ -13,31 +21,28 @@ class Pasajero(mesa.Agent):
         pass
 
 class Estacion:
-    def __init__(self, importance):
-        self.importance = importance
-        self.passengers = []
+    def __init__(self, indice):
+        self.indice = indice
+        self.pasajeros_en_espera  = []
 
     def add_passenger(self, passenger):
-        self.passengers.append(passenger)
+        self.pasajeros_en_espera.append(passenger)
 
     def step(self):
         # Lógica para manejar a los pasajeros en la estación
         pass
 
 class LineaSubte(mesa.Agent):
-    def __init__(self, stations):
+    def __init__(self, name, stations):
+        self.name = name
         self.stations = list(stations)
-
-    def add_station(self, station):
-        self.stations.append(station)
 
     def step(self):
         # Lógica para manejar el movimiento de trenes a lo largo de la línea
         pass
 
 class ModeloSubte(mesa.Model):
-    def __init__(self, N):
-        self.num_agents = N
+    def __init__(self):
         self.schedule = mesa.time.RandomActivation(self)
         self.lines = []
 
@@ -62,11 +67,13 @@ class ModeloSubte(mesa.Model):
 
     def step(self):
         self.schedule.step()
+        print(f"Paso del modelo: {self.schedule.time}")
 
 # Crear y ejecutar el modelo
 
 N = 900000 #Numero de pasajeros máximo en toda la red
 
-model = ModeloSubte(50)
-for i in range(10):
+model = ModeloSubte()
+
+for i in range(96):
     model.step()

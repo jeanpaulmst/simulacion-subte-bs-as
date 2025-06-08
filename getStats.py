@@ -50,11 +50,12 @@ for linea in lineas:
         estacion = EstacionData(nombre_estacion, ingresos=subidas, egresos=[])
         linea.agregar_estacion(estacion)
 
-print(len(df['DESDE'].unique()))  # Imprimir la cantidad de horas únicas
-print(len(lineas[0].estaciones["Dorrego"].ingresos))  # Imprimir las estaciones de la primera línea
-#print(df_agrupado.head())
+print("Cantidad de mediciones en total: " + str(len(df['DESDE'].unique())))  # Imprimir la cantidad de mediciones de tiempo (cada 15 minutos)
+print("Ingresos en dorrego: " + str(lineas[0].estaciones["Dorrego"].ingresos))  # La cantidad de mediciones de ingresos por estación "Dorrego"
 
 
-# cantidad de mediciones de ingresos por estación por día
-for estacion in lineas[0].estaciones.values():
-    print(estacion.nombre + ": " + str(len(estacion.ingresos)))
+# cantidad de mediciones de ingresos spor estación por día
+print( '####' + lineas[1].nombre + '####')
+for estacion in lineas[1].estaciones.values():
+    #print(estacion.nombre + ": " + str(len(estacion.ingresos))) #Cantidad de mediciones de ingresos por estación
+    print(estacion.nombre)
