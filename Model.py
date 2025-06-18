@@ -1,79 +1,69 @@
 import mesa
+
 import random
-import numpy as np
 
-from getStats import LineaData, EstacionData
-from auxiliarData import lineas_aux_data
-
-## --- Definición de las clases del modelo de subte --- ##
-
-
-
+from funciones.auxiliarData import linea_a_stations 
 
 class Pasajero(mesa.Agent):
-    def __init__(self, unique_id, model):
-        super().__init__(unique_id, model)
-        self.partida = None
-        self.destino = None
+    def __init__(self, model, partida, destino):
+        super().__init__( model)
+        self.partida = partida
+        self.destino = destino
+        self.estado = "en_partida"
+        self.distancia = abs(model.estaciones.index(destino) - model.estaciones.index(partida))
 
     def step(self):
-        # Lógica para mover al pasajero hacia su destino
-        pass
+        if self.estado == "en_partida":
+            self.estado = "en_viaje"
+        elif self.estado == "en_viaje":
+            self.distancia -= 1
+            if self.distancia <= 0:
+                self.estado = "en_destino"
 
 class Estacion:
-    def __init__(self, indice):
-        self.indice = indice
-        self.pasajeros_en_espera  = []
-
-    def add_passenger(self, passenger):
-        self.pasajeros_en_espera.append(passenger)
-
-    def step(self):
-        # Lógica para manejar a los pasajeros en la estación
-        pass
-
-class LineaSubte(mesa.Agent):
-    def __init__(self, name, stations):
-        self.name = name
-        self.stations = list(stations)
-
-    def step(self):
-        # Lógica para manejar el movimiento de trenes a lo largo de la línea
-        pass
+    def __init__(self, nombre):
+        self.nombre = nombre
+        self.pasajeros_actuales = 0
 
 class ModeloSubte(mesa.Model):
     def __init__(self):
-        self.schedule = mesa.time.RandomActivation(self)
-        self.lines = []
+        self.estaciones = linea_a_stations
+        self.estaciones_objs = {nombre: Estacion(nombre) for nombre in self.estaciones}
+        self.pasajeros = []
 
-        # Crear líneas de subte
-        line = LineaSubte(1, self)
-        self.schedule.add(line)
-        self.lines.append(line)
-
-        # Crear estaciones
-        for i in range(2):
-            station = Estacion(i, self, random.random())
-            line.add_station(station)
-            self.schedule.add(station)
-
-        # Crear pasajeros
-        for i in range(self.num_agents):
-            passenger = Pasajero(i, self)
-            self.schedule.add(passenger)
-            # Asignar una estación aleatoria como destino
-            passenger.destination = random.choice(line.stations)
-            passenger.destination.add_passenger(passenger)
+    def crear_pasajeros_en_estaciones(self):
+        for nombre in self.estaciones:
+            cantidad = random.randint(0, 3)  # variable aleatoria simple - Cambiar por variable aleatoria generada para cada estación
+            for _ in range(cantidad):
+                destino = random.choice([e for e in self.estaciones if e != nombre])
+                pasajero = Pasajero(self, nombre, destino)
+                self.pasajeros.append(pasajero)
+                
 
     def step(self):
-        self.schedule.step()
-        print(f"Paso del modelo: {self.schedule.time}")
+        # 1. Crear nuevos pasajeros
+        self.crear_pasajeros_en_estaciones()
 
-# Crear y ejecutar el modelo
+        # 2. Avanzar estado de cada pasajero
+        for p in self.pasajeros:
+            p.step()
 
-N = 900000 #Numero de pasajeros máximo en toda la red
+        # 3. Contar pasajeros por estación
+        conteo = {nombre: 0 for nombre in self.estaciones}
+        for p in self.pasajeros:
+            if p.estado == "en_partida" and p.partida in conteo:
+                conteo[p.partida] += 1
+            elif p.estado == "en_destino" and p.destino in conteo:
+                conteo[p.destino] += 1
 
-model = ModeloSubte()
+        print("Cantidad de pasajeros por estación:")
+        for nombre, cant in conteo.items():
+            print(f"{nombre}: {cant}")
+        print("")
 
-for i in range(96):
-    model.step()
+# Ejecutar el modelo por 5 pasos
+modelo = ModeloSubte()
+
+for i in range(5):
+    print(f"--- STEP {i+1} ---")
+    modelo.step()

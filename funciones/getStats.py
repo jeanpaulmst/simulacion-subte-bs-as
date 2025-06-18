@@ -53,9 +53,23 @@ for linea in lineas:
 print("Cantidad de mediciones en total: " + str(len(df['DESDE'].unique())))  # Imprimir la cantidad de mediciones de tiempo (cada 15 minutos)
 print("Ingresos en dorrego: " + str(lineas[0].estaciones["Dorrego"].ingresos))  # La cantidad de mediciones de ingresos por estación "Dorrego"
 
+print("===================")
+print("0: " + str(lineas[0].nombre))
+print("1: " + str(lineas[1].nombre)) #Linea A
+print("2: " + str(lineas[2].nombre))
+print("===================")
 
-# cantidad de mediciones de ingresos spor estación por día
-print( '####' + lineas[1].nombre + '####')
-for estacion in lineas[1].estaciones.values():
-    #print(estacion.nombre + ": " + str(len(estacion.ingresos))) #Cantidad de mediciones de ingresos por estación
-    print(estacion.nombre)
+#Diccionario que contienen clave (nombre de estación) valor (arreglo de cantidad de personas que entran en lapso de 15 min a las estacion)
+ingresos_lineaA = { estacion.nombre: estacion.ingresos for estacion in list(lineas[1].estaciones.values())}
+
+print("Ingresos Plaza de Mayo: ", ingresos_lineaA["Plaza de Mayo"])
+print("===================")
+print("Ingresos Perú: ", ingresos_lineaA["Plaza de Mayo"])
+
+print("\n=====================\n")
+
+#print("ingresos_lineaA = ", ingresos_lineaA)
+
+#estaciones de la linea A
+print(list(ingresos_lineaA.keys()))
+
