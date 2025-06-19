@@ -1,3 +1,5 @@
 molinetes-2024/
 *.zip
 *.csv
+__pycache__/
+*.pyc
