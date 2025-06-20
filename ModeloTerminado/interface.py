@@ -1,5 +1,3 @@
-
-from mesa.time import RandomActivation 
 import streamlit as st
 import mesa
 import random

@@ -25,6 +25,12 @@ def create_intensity_function(data, original_step=15, new_step=5):
 # Ejemplo de uso
 intensity_function = create_intensity_function(ingresos_lineaA["Flores"])
 
+print("ingresos flores ", ingresos_lineaA["Flores"]) 
+
+print("\n")
+
+print("funcion de intensidad de flores: ", intensity_function)
+
 # Ejemplo de cómo obtener la tasa en un tiempo específico
 time = 30  # minutos
 rate = intensity_function(time)

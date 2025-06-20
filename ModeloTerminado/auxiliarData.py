@@ -16,7 +16,6 @@ linea_a_stations = {
     "Primera Junta": 13
 }
 
-
 linea_b_stations = {
     "Juan Manuel de Rosas": 0,
     "Echeverría": 1,

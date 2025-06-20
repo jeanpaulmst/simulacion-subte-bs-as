@@ -126,11 +126,13 @@ class ModeloSubte(mesa.Model):
                    for estacion in list(self.estaciones.keys())}
             }
         )
+        self.data = []
     
     def actualizar_estadisticas(self):
         """Actualiza estadísticas de pasajeros por estación"""
         for estacion_nombre, estacion_obj in self.objetos_estaciones.items():
             self.pasajeros_por_estacion[estacion_nombre] = estacion_obj.contar_pasajeros()
+
     
     def step(self):
         """Ejecuta un paso de la simulación"""
@@ -149,6 +151,7 @@ class ModeloSubte(mesa.Model):
         
         # Limpiar pasajeros que completaron su viaje
         self.limpiar_pasajeros_finalizados()
+        self.data.append(self.pasajeros_por_estacion.copy())
     
     def limpiar_pasajeros_finalizados(self):
         """Elimina pasajeros que han llegado a su destino (después de 1 step en destino)"""
@@ -172,6 +175,7 @@ class ModeloSubte(mesa.Model):
 
 # Ejemplo de uso
 
+""""
 modelo = ModeloSubte()
 
 print("Iniciando simulación de la Línea A del Subte...")
@@ -180,26 +184,6 @@ print("=" * 60)
 time.sleep(1)
 os.system('cls')
 
-"""
-for i in range(100):
-    modelo.step()
-    estado = modelo.obtener_estado_tiempo_real()
-    
-    print(f"\nStep {estado['step']}:")
-    print("-" * 40)
-    
-    # Mostrar todas las estaciones con sus pasajeros
-    for estacion, cantidad in estado['pasajeros_por_estacion'].items():
-        print(f"  {estacion:<25}: {cantidad:>3} pasajeros")
-    
-    # Mostrar total
-    total = sum(estado['pasajeros_por_estacion'].values())
-    print("-" * 40)
-    print(f"  {'TOTAL':<25}: {total:>3} pasajeros")
-
-    time.sleep(0.1)
-    os.system('cls')
-"""
 modelo.step()
 estado = modelo.obtener_estado_tiempo_real()
 estaciones = list(estado['pasajeros_por_estacion'].keys())
@@ -223,3 +207,4 @@ for i in range(1, 100):
 
 print("\n" + "=" * 60)
 print("Simulación completada")
+"""
