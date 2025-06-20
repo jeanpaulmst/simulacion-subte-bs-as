@@ -26,7 +26,7 @@
 ```pip install -r requirements.txt```  
 
 5- Ejecuta la app con streamlit  
-```streamlit run app.py```  
+```streamlit run interface.py```  
 
 
 
@@ -60,7 +60,7 @@ Cada **Pasajero** realiza un viaje entre dos estaciones, con los siguientes atri
 
 ### Funcionamiento
 
-1 - Cada estación genera una cantidad n de pasajeros en cada `step`. Esto se hace a través  
+1 - Cada estación genera una cantidad n de pasajeros en cada `step`. Esto se hace a través del proceso de Poisson no homogéneo.  
 2 - A cada pasajero se le asigna una estación destino aleatoria (diferente a la partida).  
 3 - Se calcula la longitud del recorrido según la distancia entre partida y destino.  
 4 - En el primer `step`, el pasajero está `en_partida` y se contabiliza en la estación de origen.  
