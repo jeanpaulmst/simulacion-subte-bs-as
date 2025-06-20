@@ -6,6 +6,7 @@ from typing import List, Dict
 import os
 import time
 
+from auxiliarData import linea_a_stations
 from dataIngresos import ingresos_lineaA
 from generateRandomVariable2 import create_intensity_function
 
@@ -28,8 +29,8 @@ class Pasajero(mesa.Agent):
     def calcular_longitud_viaje(self):
         """Calcula la distancia entre estación de partida y destino"""
         estaciones = self.model.estaciones
-        idx_partida = estaciones.index(self.estacion_partida)
-        idx_destino = estaciones.index(self.estacion_destino)
+        idx_partida = linea_a_stations[self.estacion_partida]
+        idx_destino = linea_a_stations[self.estacion_destino]
         return abs(idx_destino - idx_partida)
     
     def step(self):
@@ -46,8 +47,9 @@ class Pasajero(mesa.Agent):
 class Estacion:
     """Representa una estación de la línea A"""
     
-    def __init__(self, nombre, model):
+    def __init__(self, nombre, indice, model):
         self.nombre = nombre
+        self.indice = indice
         self.model = model
         self.intensity_function = create_intensity_function(list(ingresos_lineaA[nombre]))
         
@@ -102,13 +104,10 @@ class ModeloSubte(mesa.Model):
     def __init__(self):
         super().__init__()
 
-        self.estaciones = list(ingresos_lineaA.keys())
+        self.estaciones = linea_a_stations
         
         # Crear objetos estación
-        self.objetos_estaciones = {
-            nombre: Estacion(nombre, self)
-            for nombre in self.estaciones
-        }
+        self.objetos_estaciones = {nombre: Estacion(nombre, indice, self) for nombre, indice in self.estaciones.items()}
         
         # Scheduler para los agentes
         self.schedule = mesa.time.RandomActivation(self)
@@ -117,14 +116,14 @@ class ModeloSubte(mesa.Model):
         self.contador_pasajeros = 0
         
         # Estadísticas simplificadas
-        self.pasajeros_por_estacion = {estacion: 0 for estacion in self.estaciones}
+        self.pasajeros_por_estacion = {estacion: 0 for estacion in list(self.estaciones.keys())}
         
         # Data collector simplificado - solo para mostrar en tiempo real
         self.datacollector = mesa.DataCollector(
             model_reporters={
                 "Step": lambda m: m.schedule.steps,
                 **{f"Estacion_{estacion}": lambda m, est=estacion: m.pasajeros_por_estacion[est] 
-                   for estacion in self.estaciones}
+                   for estacion in list(self.estaciones.keys())}
             }
         )
     
@@ -220,7 +219,7 @@ for i in range(1, 100):
                  f"  {'TOTAL':<25}: {sum(estado['pasajeros_por_estacion'].values()):>3} pasajeros"])
     
     print('\n'.join(lines))
-    time.sleep(0.01)
+    time.sleep(1)
 
 print("\n" + "=" * 60)
 print("Simulación completada")

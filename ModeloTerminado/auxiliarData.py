@@ -1,22 +1,21 @@
 
 linea_a_stations = {
-    "San Pedrito": 0,
-    "San José de Flores": 1,
-    "Carabobo": 2,
-    "Puan": 3,
-    "Primera Junta": 4,
-    "Acoyte": 5,
-    "Río de Janeiro": 6,
-    "Castro Barros": 7,
-    "Loria": 8,
-    "Plaza Miserere": 9,
-    "Alberti": 10,
-    "Pasco": 11,
-    "Congreso": 12,
-    "Sáenz Peña": 13,
-    "Lima": 14,
-    "Perú": 15
+    "Plaza de Mayo": 0,
+    "Peru": 1,
+    "Piedras": 2,
+    "Lima": 3,
+    "Saenz Peña": 4,
+    "Congreso": 5,
+    "Pasco": 6,
+    "Alberti": 7,
+    "Plaza Miserere": 8,
+    "Loria": 9,
+    "Castro Barros": 10,
+    "Rio de Janeiro": 11,
+    "Acoyte": 12,
+    "Primera Junta": 13
 }
+
 
 linea_b_stations = {
     "Juan Manuel de Rosas": 0,
