@@ -58,6 +58,8 @@ Cada **Pasajero** realiza un viaje entre dos estaciones, con los siguientes atri
   - `en_destino`
 - `longitud`: cantidad de estaciones a recorrer
 
+![modelo.png](modelo.png)
+
 ### Funcionamiento
 
 1 - Cada estación genera una cantidad n de pasajeros en cada `step`. Esto se hace a través del proceso de Poisson no homogéneo.  
