@@ -55,7 +55,7 @@ class Estacion:
         
     def generar_cantidad_pasajeros(self):
         """Genera cantidad aleatoria de pasajeros usando distribución de Poisson"""
-        rate = self.intensity_function(self.model.schedule.steps)
+        rate = self.intensity_function[self.model.schedule.steps]   
         return np.random.poisson(rate)
     
     def crear_pasajeros(self):
