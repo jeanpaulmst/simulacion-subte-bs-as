@@ -59,12 +59,12 @@ def main():
             
       
             # Mostrar resultados en una tabla
-            #st.write(f"### Paso {estado['step']}")
+            st.write(f"### Paso {estado['step']}")
             df = pd.DataFrame(list(estado['pasajeros_por_estacion'].items()), columns=['Estación', 'Pasajeros'])
-            #st.table(df)
-            #st.write(f"Total: {sum(estado['pasajeros_por_estacion'].values())} pasajeros")
+            st.table(df)
+            st.write(f"Total: {sum(estado['pasajeros_por_estacion'].values())} pasajeros")
 
-            #time.sleep(0.1)
+            time.sleep(0.1)
      
         
 
