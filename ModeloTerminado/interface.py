@@ -45,23 +45,28 @@ def main():
     st.title("Simulación de la Línea A del Subte")
     modelo = ModeloSubte()
 
+    steps_input = st.text_input("Ingrese cantidad de steps a simular (cada step representa 5 min de la realidad):")
+
     if st.button("Iniciar Simulación"):
         progress_bar = st.progress(0)
-        steps = 100
+        steps = int(steps_input)
 
+    
         for i in range(steps):
             modelo.step()
             estado = modelo.obtener_estado_tiempo_real()
             progress_bar.progress((i + 1) / steps)
             
-
+      
             # Mostrar resultados en una tabla
-            st.write(f"### Paso {estado['step']}")
+            #st.write(f"### Paso {estado['step']}")
             df = pd.DataFrame(list(estado['pasajeros_por_estacion'].items()), columns=['Estación', 'Pasajeros'])
-            st.table(df)
-            st.write(f"Total: {sum(estado['pasajeros_por_estacion'].values())} pasajeros")
+            #st.table(df)
+            #st.write(f"Total: {sum(estado['pasajeros_por_estacion'].values())} pasajeros")
 
-            time.sleep(0.1)
+            #time.sleep(0.1)
+     
+        
 
         st.success("Simulación completada")
 
