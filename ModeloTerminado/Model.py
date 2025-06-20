@@ -36,7 +36,9 @@ class Pasajero(mesa.Agent):
     def step(self):
         """Actualiza el estado del pasajero en cada step"""
         if self.estado == EstadoPasajero.EN_PARTIDA:
-            self.estado = EstadoPasajero.EN_VIAJE
+            # Espera 1 paso completo antes de salir de EN_PARTIDA
+            if self.model.schedule.steps > self.step_creacion:
+                self.estado = EstadoPasajero.EN_VIAJE
             
         elif self.estado == EstadoPasajero.EN_VIAJE:
             self.longitud_viaje -= 1
@@ -55,7 +57,7 @@ class Estacion:
         
     def generar_cantidad_pasajeros(self):
         """Genera cantidad aleatoria de pasajeros usando distribución de Poisson"""
-        rate = self.intensity_function[self.model.schedule.steps]   
+        rate = self.intensity_function[self.model.schedule.steps] 
         return np.random.poisson(rate)
     
     def crear_pasajeros(self):
@@ -175,9 +177,13 @@ class ModeloSubte(mesa.Model):
 
 # Ejemplo de uso
 
-""""
+
 modelo = ModeloSubte()
 
+for i in range(0, 10):
+    modelo.step()
+    estado = modelo.obtener_estado_tiempo_real()
+"""
 print("Iniciando simulación de la Línea A del Subte...")
 print("=" * 60)
 
