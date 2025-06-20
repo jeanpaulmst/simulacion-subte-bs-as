@@ -34,7 +34,7 @@ class EstacionData:
 
 #Cantidad de gente que ingresa a cada estacion cada 15 minutos
 df_agrupado = df.groupby(['DESDE', 'HASTA', 'LINEA', 'ESTACION'])['pax_pagos'].sum().reset_index()
-print(df_agrupado.head())
+print(df_agrupado.head())  #muestra las primeras 5 filas del DataFrame resultante.
 
 #Obtener todas las distintas líneas y crear un objeto LineaData para cada una
 lineas_unicas = df['LINEA'].unique()
